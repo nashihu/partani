@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:petani/pages/login/login.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -27,7 +29,10 @@ class SplashScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                button(label: 'Register', onTap: () {}),
+                button(
+                  label: 'Register',
+                  onTap: () => Get.to(() => const LoginPage()),
+                ),
                 const SizedBox(width: 16),
                 button(label: 'Log in', onTap: () {}),
               ],
