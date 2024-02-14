@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petani/pages/login/login.dart';
+import 'package:petani/pages/register/register.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -19,7 +20,7 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/logo.png', width: 250),
+            Image.asset('assets/logo.png', width: Get.width * .5),
             const SizedBox(height: 32),
             const Text('Selamat Datang'),
             const SizedBox(height: 8),
@@ -31,10 +32,13 @@ class SplashScreen extends StatelessWidget {
               children: [
                 button(
                   label: 'Register',
-                  onTap: () => Get.to(() => const LoginPage()),
+                  onTap: () => Get.to(() => const RegisterPage()),
                 ),
                 const SizedBox(width: 16),
-                button(label: 'Log in', onTap: () {}),
+                button(
+                  label: 'Log in',
+                  onTap: () => Get.to(() => const LoginPage()),
+                ),
               ],
             ),
           ],

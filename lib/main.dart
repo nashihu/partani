@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petani/pages/login/login.dart';
+import 'package:petani/pages/register/register.dart';
 import 'package:petani/pages/splash/splash.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+void prepareController() {
+  Get.put(LoginController());
+  Get.put(RegisterController());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Get.put(LoginController());
+    prepareController();
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
