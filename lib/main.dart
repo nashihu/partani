@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petani/pages/login/login.dart';
+import 'package:petani/pages/navigation/navigation.dart';
 import 'package:petani/pages/register/register.dart';
 import 'package:petani/pages/splash/splash.dart';
 
@@ -11,6 +12,7 @@ void main() {
 void prepareController() {
   Get.put(LoginController());
   Get.put(RegisterController());
+  Get.put(NavigationController());
 }
 
 class MyApp extends StatelessWidget {

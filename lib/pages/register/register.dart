@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petani/pages/login/login.dart';
+import 'package:petani/pages/navigation/navigation.dart';
 
 class RegisterController extends GetxController {
   TextEditingController username = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  void register() {
+    Get.offAll(() => const NavigationPage());
+  }
 }
 
 class RegisterPage extends GetView<RegisterController> {
@@ -79,7 +84,7 @@ class RegisterPage extends GetView<RegisterController> {
                   ),
                 ),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: c.register,
                   child: const Text(
                     'Daftar',
                     style: TextStyle(

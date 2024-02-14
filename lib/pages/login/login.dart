@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petani/pages/navigation/navigation.dart';
 
 class LoginController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  void login() {
+    Get.offAll(() => const NavigationPage());
+  }
 }
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({super.key});
+
+  LoginController get c => controller;
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +64,20 @@ class LoginPage extends GetView<LoginController> {
               style: TextStyle(color: Colors.blue),
             ),
             const SizedBox(height: 16),
-            Container(
-              width: Get.width,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                color: Colors.blue,
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              alignment: Alignment.center,
-              child: const Text(
-                'Login',
-                style: TextStyle(color: Colors.white),
+            InkWell(
+              onTap: c.login,
+              child: Container(
+                width: Get.width,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  color: Colors.blue,
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Login',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
             const SizedBox(height: 32),
