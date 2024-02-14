@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petani/pages/chat/chat_page.dart';
 import 'package:petani/pages/home/home_page.dart';
 import 'package:petani/pages/profil/profile_page.dart';
 
@@ -20,6 +21,8 @@ class NavigationPage extends GetView<NavigationController> {
     switch (c.selectedIndex.value) {
       case 0:
         return const HomePage();
+      case 1:
+        return const ChatPage();
       case 3:
         return const ProfilePage();
     }
