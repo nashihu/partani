@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petani/model/product_model.dart';
 import 'package:petani/pages/product/product_page.dart';
 
 class HomeController extends GetxController {
   final search = TextEditingController();
+  final products = RxList<ProductModel>(
+    model.map((e) => ProductModel.fromJson(e)).toList(),
+  );
 }
 
 class HomePage extends GetView<HomeController> {
@@ -76,13 +80,7 @@ class HomePage extends GetView<HomeController> {
           Expanded(
             child: SingleChildScrollView(
               child: Wrap(
-                children: [
-                  itemProduct(),
-                  itemProduct(),
-                  itemProduct(),
-                  itemProduct(),
-                  itemProduct(),
-                ],
+                children: [...c.products.map((e) => itemProduct(e))],
               ),
             ),
           )
@@ -91,10 +89,10 @@ class HomePage extends GetView<HomeController> {
     );
   }
 
-  Widget itemProduct() {
+  Widget itemProduct(ProductModel product) {
     return InkWell(
       onTap: () {
-        Get.to(() => const ProductPage());
+        Get.to(() => ProductPage(product: product));
       },
       child: SizedBox(
         width: 130,
@@ -106,42 +104,49 @@ class HomePage extends GetView<HomeController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Row(
+                Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.star, color: Colors.yellow, size: 10),
-                    SizedBox(width: 8),
-                    Text('4.9', style: TextStyle(fontSize: 10)),
+                    const Icon(Icons.star, color: Colors.yellow, size: 10),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${product.rate}',
+                      style: const TextStyle(fontSize: 10),
+                    ),
                   ],
                 ),
                 Image.network(
-                  'https://cf.shopee.co.id/file/75ae275096139f7a18401b0603a0af75',
+                  product.imageUrl ?? '',
                   width: 130 - 32,
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.location_pin, size: 10),
-                              SizedBox(width: 4),
-                              Text('Posea', style: TextStyle(fontSize: 10)),
+                              const Icon(Icons.location_pin, size: 10),
+                              const SizedBox(width: 4),
+                              Text(product.city ?? '',
+                                  style: const TextStyle(fontSize: 10)),
                             ],
                           ),
                           Text(
-                            'Bunga Kol',
-                            style: TextStyle(
+                            product.name ?? '',
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
                             ),
                           ),
-                          Text('5.000 /Kg', style: TextStyle(fontSize: 10))
+                          Text(
+                            '${product.price} /${product.unit}',
+                            style: const TextStyle(fontSize: 10),
+                          )
                         ],
                       ),
                     ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petani/model/product_model.dart';
+import 'package:petani/pages/cart/cart_page.dart';
 
 class ProductController extends GetxController {
   final selected = 0.obs;
@@ -14,19 +16,32 @@ class ProductController extends GetxController {
   }
 
   void addToCart() {
+    if (selected.value < 1) {
+      Get.showSnackbar(const GetSnackBar(
+        message: 'Qty harus lebih dari 0',
+        duration: Duration(seconds: 2),
+      ));
+      return;
+    }
+    Get.find<CartController>().addFromProduct(product, selected.value);
+    Get.back();
     Get.showSnackbar(const GetSnackBar(
       message: 'Berhasil Tambah Keranjang',
       duration: Duration(seconds: 2),
     ));
   }
+
+  final ProductModel product;
+  ProductController(this.product);
 }
 
 class ProductPage extends StatelessWidget {
-  const ProductPage({super.key});
+  final ProductModel product;
+  const ProductPage({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    final ctrl = Get.put(ProductController());
+    final ctrl = Get.put(ProductController(product));
     return Scaffold(
       body: Column(
         children: [
@@ -41,7 +56,7 @@ class ProductPage extends StatelessWidget {
             ],
           ),
           Image.network(
-            'https://cf.shopee.co.id/file/75ae275096139f7a18401b0603a0af75',
+            product.imageUrl ?? '',
             width: Get.width * .4,
             height: Get.width * .4,
             fit: BoxFit.cover,
@@ -60,12 +75,12 @@ class ProductPage extends StatelessWidget {
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(Icons.star, color: Colors.yellow),
+                      const Icon(Icons.star, color: Colors.yellow),
                       Text(
-                        '4.8',
-                        style: TextStyle(
+                        '${product.rate}',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 25,
                           fontWeight: FontWeight.w600,
@@ -74,9 +89,9 @@ class ProductPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Text(
-                  'Rp.5000/kg',
-                  style: TextStyle(
+                Text(
+                  '${product.price} /${product.unit}',
+                  style: const TextStyle(
                     color: Colors.blue,
                     fontSize: 24,
                   ),
@@ -90,9 +105,9 @@ class ProductPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Bunga Kol',
-                  style: TextStyle(
+                Text(
+                  product.name ?? '',
+                  style: const TextStyle(
                     fontSize: 22,
                   ),
                 ),
@@ -136,11 +151,11 @@ class ProductPage extends StatelessWidget {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Bunga Kol mengandung vitamin C yang dikenal sebagai antioksidan untuk meningkatkan daya tahan tubuh.',
-              style: TextStyle(
+              product.desc ?? '',
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),

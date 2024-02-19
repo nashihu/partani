@@ -8,29 +8,10 @@ import 'package:petani/pages/delivery/delivery_page.dart';
 class CartController extends GetxController {
   final carts = RxList<CartModel>();
 
-  @override
-  void onInit() {
-    super.onInit();
-    carts.value = [
-      CartModel()
-        ..product = (ProductModel()
-          ..name = 'Bunga Kol'
-          ..imageUrl =
-              'https://cf.shopee.co.id/file/75ae275096139f7a18401b0603a0af75')
-        ..qty = 3,
-      CartModel()
-        ..product = (ProductModel()
-          ..name = 'Cabe'
-          ..imageUrl =
-              'https://cf.shopee.co.id/file/75ae275096139f7a18401b0603a0af75')
-        ..qty = 2,
-      CartModel()
-        ..product = (ProductModel()
-          ..name = 'Kurupuk'
-          ..imageUrl =
-              'https://cf.shopee.co.id/file/75ae275096139f7a18401b0603a0af75')
-        ..qty = 10
-    ];
+  void addFromProduct(ProductModel productModel, int qty) {
+    carts.add(CartModel()
+      ..product = productModel
+      ..qty = qty);
   }
 
   add() {}
@@ -102,8 +83,8 @@ class CartPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            for (int i = 0; i < 10; i++) ...[
-              itemCart(ok),
+            for (int i = 0; i < ctrl.carts.length; i++) ...[
+              itemCart(ctrl.carts[i]),
             ],
             const SizedBox(height: 32),
             InkWell(
