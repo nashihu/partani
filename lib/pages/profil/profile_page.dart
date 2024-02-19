@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
                     ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(50)),
                       child: Image.network(
-                        'https://lh3.googleusercontent.com/a-/ALV-UjVEaDUEUo9JlvcGe99OYtlhjJH0ZUKXirRWVnTV0lLEL18=s360-p',
+                        'https://lh3.googleusercontent.com/a-/ALV-UjVEaDUEUo9JlvcGe99OYtlhjJH0ZUKXirRWVnTV0lLEL18=s360-x',
                         height: Get.width * .25,
                       ),
                     ),

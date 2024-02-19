@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petani/model/cart_model.dart';
 import 'package:petani/model/product_model.dart';
+import 'package:petani/pages/delivery/delivery_page.dart';
 
 class CartController extends GetxController {
   final carts = RxList<CartModel>();
@@ -77,19 +78,22 @@ class CartPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'Pilih Pengiriman',
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontSize: 15,
+            InkWell(
+              onTap: () => Get.to(() => const DeliveryPage()),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Pilih Pengiriman',
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 15,
+                    ),
                   ),
-                ),
-                SizedBox(width: 16),
-                Icon(Icons.chevron_right),
-              ],
+                  SizedBox(width: 16),
+                  Icon(Icons.chevron_right),
+                ],
+              ),
             ),
             const SizedBox(height: 32),
             for (int i = 0; i < 10; i++) ...[
