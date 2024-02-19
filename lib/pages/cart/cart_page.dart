@@ -7,25 +7,56 @@ import 'package:petani/pages/delivery/delivery_page.dart';
 
 class CartController extends GetxController {
   final carts = RxList<CartModel>();
+  final i = 1.obs;
 
   void addFromProduct(ProductModel productModel, int qty) {
-    carts.add(CartModel()
-      ..product = productModel
-      ..qty = qty);
+    List<String> ids = [];
+    ids = carts.map((e) => e.product?.id).whereType<String>().toList();
+    final id = productModel.id;
+    if (id == null) return;
+    final idx = ids.indexOf(id);
+    if (idx > -1) {
+      carts[idx].qty += qty;
+    } else {
+      carts.add(CartModel()
+        ..product = productModel
+        ..qty = qty);
+    }
   }
 
-  add() {}
-  remove() {}
+  add(int i) {
+    carts[i].qty++;
+    this.i.value = 2;
+    carts.refresh();
+  }
+
+  remove(int i) {
+    if (carts[i].qty == 1) return;
+    carts[i].qty--;
+    this.i.value = 2;
+    carts.refresh();
+  }
+
+  delete(int i) {
+    carts.removeAt(i);
+    carts.refresh();
+  }
 }
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
   CartController get ctrl => Get.find();
-  CartModel get ok => ctrl.carts[0];
 
   @override
   Widget build(BuildContext context) {
+    return Obx(() => _build(context));
+  }
+
+  Widget _build(BuildContext context) {
+    if (ctrl.carts.isEmpty) {
+      return const Center(child: Text('Belum ada barang di keranjang'));
+    }
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -83,9 +114,7 @@ class CartPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            for (int i = 0; i < ctrl.carts.length; i++) ...[
-              itemCart(ctrl.carts[i]),
-            ],
+            for (int i = 0; i < ctrl.carts.length; i++) ...[itemCart(i)],
             const SizedBox(height: 32),
             InkWell(
               onTap: () {},
@@ -250,7 +279,8 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  Widget itemCart(CartModel dummy) {
+  Widget itemCart(int i) {
+    final dummy = ctrl.carts[i];
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       child: Row(
@@ -280,7 +310,7 @@ class CartPage extends StatelessWidget {
               Row(
                 children: [
                   InkWell(
-                    onTap: ctrl.remove,
+                    onTap: () => ctrl.remove(i),
                     child: Container(
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -300,7 +330,7 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: ctrl.add,
+                    onTap: () => ctrl.add(i),
                     child: Container(
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -315,7 +345,7 @@ class CartPage extends StatelessWidget {
             ],
           ),
           InkWell(
-            onTap: () {},
+            onTap: () => ctrl.delete(i),
             child: const Icon(Icons.clear, color: Colors.red),
           ),
         ],

@@ -4,7 +4,7 @@ import 'package:petani/model/product_model.dart';
 import 'package:petani/pages/cart/cart_page.dart';
 
 class ProductController extends GetxController {
-  final selected = 0.obs;
+  final selected = 1.obs;
 
   void add() {
     selected.value++;
