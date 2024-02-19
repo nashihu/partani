@@ -7,7 +7,11 @@ import 'package:petani/pages/delivery/delivery_page.dart';
 
 class CartController extends GetxController {
   final carts = RxList<CartModel>();
-  final i = 1.obs;
+  int sum(int a, int b) => a + b;
+  int get n => carts.map((e) => e.qty).reduce(sum);
+  int get tot => carts.map((e) => (e.product?.price ?? 0) * e.qty).reduce(sum);
+  int get total => tot + ongkir;
+  int get ongkir => 15000;
 
   void addFromProduct(ProductModel productModel, int qty) {
     List<String> ids = [];
@@ -26,14 +30,12 @@ class CartController extends GetxController {
 
   add(int i) {
     carts[i].qty++;
-    this.i.value = 2;
     carts.refresh();
   }
 
   remove(int i) {
     if (carts[i].qty == 1) return;
     carts[i].qty--;
-    this.i.value = 2;
     carts.refresh();
   }
 
@@ -194,10 +196,10 @@ class CartPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Biaya Pengiriman',
                   style: TextStyle(
                     color: Color(0xFF6F6D6D),
@@ -205,8 +207,8 @@ class CartPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Rp.15.000',
-                  style: TextStyle(
+                  'Rp.${ctrl.ongkir}',
+                  style: const TextStyle(
                     color: Color(0xFF868585),
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -215,19 +217,19 @@ class CartPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Subtotal (3 items)',
-                  style: TextStyle(
+                  'Subtotal (${ctrl.n} items)',
+                  style: const TextStyle(
                     color: Color(0xFF6F6D6D),
                     fontSize: 16,
                   ),
                 ),
                 Text(
-                  'Rp.15.000',
-                  style: TextStyle(
+                  'Rp.${ctrl.tot}',
+                  style: const TextStyle(
                     color: Color(0xFFC9AA05),
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -236,10 +238,10 @@ class CartPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Total',
                   style: TextStyle(
                     color: Colors.black,
@@ -247,8 +249,8 @@ class CartPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Rp.15.000',
-                  style: TextStyle(
+                  'Rp.${ctrl.total}',
+                  style: const TextStyle(
                     color: Color(0xFFC9AA05),
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -300,9 +302,9 @@ class CartPage extends StatelessWidget {
                   fontSize: 13,
                 ),
               ),
-              const Text(
-                'Rp.36.000',
-                style: TextStyle(
+              Text(
+                'Rp.${dummy.product?.price}',
+                style: const TextStyle(
                   color: Color(0xFFC9AA05),
                   fontSize: 12,
                 ),
