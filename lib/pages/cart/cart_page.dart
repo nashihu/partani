@@ -4,6 +4,7 @@ import 'package:petani/model/cart_model.dart';
 import 'package:petani/model/product_model.dart';
 import 'package:petani/pages/address/address_page.dart';
 import 'package:petani/pages/delivery/delivery_page.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class CartController extends GetxController {
   final carts = RxList<CartModel>();
@@ -259,19 +260,25 @@ class CartPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 32),
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(26)),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              width: Get.width * .7,
-              alignment: Alignment.center,
-              child: const Text(
-                'Pesan',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 27,
+            InkWell(
+              onTap: () {
+                launchUrlString(
+                    "https://wa.me/6281264086157?text=halo%20admin%20saya%20ingin%20pesan%20sayur");
+              },
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(26)),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                width: Get.width * .7,
+                alignment: Alignment.center,
+                child: const Text(
+                  'Pesan',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 27,
+                  ),
                 ),
               ),
             ),
